@@ -242,7 +242,7 @@ function RaceGame() {
                             <div className="terminal-box p-3">
                                 <div style={{ color: 'var(--terminal-amber)' }} className="mb-2">RACE STATISTICS</div>
                                 <div>TOTAL SUPPLY: 1,000,000,000</div>
-                                <div>REWARD POOL: 1,000 RUN</div>
+                                <div>REWARD POOL: 1,000,000 RUN</div>
                                 <div>RIVALS COMPETING: 4</div>
                                 <div>ROUND {CURRENT_ROUND}/9 ACTIVE</div>
                             </div>
@@ -265,7 +265,7 @@ function RaceGame() {
                                     REQUIREMENTS: NAME MATCH + SELF PROTOCOL VERIFICATION
                                 </div>
                                 <div style={{ color: 'var(--terminal-white)' }} className="mb-4">
-                                    REWARD: 1,000 RUN TOKENS TO WINNER
+                                    REWARD: 1,000,000 RUN TOKENS TO WINNER
                                 </div>
                             </div>
 
@@ -349,7 +349,7 @@ function RaceGame() {
                                         ║    🏁 RACE VERIFICATION SUCCESS!       ║
                                     </div>
                                     <div style={{ color: 'var(--terminal-green)' }} className="text-xl mb-4 terminal-glow">
-                                        ║       1,000 RUN TOKENS REDEEMED!       ║
+                                        ║     1,000,000 RUN TOKENS REDEEMED!     ║
                                     </div>
                                     <div style={{ color: 'var(--terminal-green)' }} className="text-xl mb-4 terminal-glow">
                                         ╚════════════════════════════════════════╝
