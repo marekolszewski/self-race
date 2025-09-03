@@ -56,44 +56,30 @@ contract DeployHappyBirthday is Script {
         uint256 scope = vm.envUint("HASHED_SCOPE");
         console.log("Using scope from environment:", scope);
 
-        uint256 attestationId = 1;
+        uint256[] memory attestationIds = new uint256[](1);
+        attestationIds[0] = 1;
 
-        // For mainnet environment
-        // address token = 0xcebA9300f2b948710d2653dD7B07f33A8B32118C;
-        // For staging environment
-        address token = 0x2F25deB3848C207fc8E0c34035B3Ba7fC157602B;
-
-        bool olderThanEnabled = false;
-        uint256 olderThan = 18;
-        bool forbiddenCountriesEnabled = false;
-        uint256[4] memory forbiddenCountriesListPacked = [uint256(0), uint256(0), uint256(0), uint256(0)];
-        bool[3] memory ofacEnabled = [true, true, true];
-
-        console.log("Deploying SelfHappyBirthday...");
+        console.log("Deploying SelfHappyBirthday (RACE Token)...");
 
         // Deploy the contract
         SelfHappyBirthday selfHappyBirthday = new SelfHappyBirthday(
             identityVerificationHub,
             scope,
-            attestationId,
-            token,
-            olderThanEnabled,
-            olderThan,
-            forbiddenCountriesEnabled,
-            forbiddenCountriesListPacked,
-            ofacEnabled
+            attestationIds
         );
 
         // Stop broadcasting
         vm.stopBroadcast();
 
         // Log the deployed address
-        console.log("SelfHappyBirthday deployed to:", address(selfHappyBirthday));
+        console.log("SelfHappyBirthday (RACE Token) deployed to:", address(selfHappyBirthday));
         console.log("\n=== DEPLOYMENT SUMMARY ===");
-        console.log("Contract: SelfHappyBirthday");
+        console.log("Contract: SelfHappyBirthday (RACE Token)");
         console.log("Address: %s", address(selfHappyBirthday));
+        console.log("Token Name: RACE");
+        console.log("Token Symbol: RACE");
+        console.log("Total Supply: 1,000,000,000 RACE");
         console.log("Identity Hub: %s", identityVerificationHub);
-        console.log("Token: %s", token);
         console.log("Scope: %s", scope);
     }
 }

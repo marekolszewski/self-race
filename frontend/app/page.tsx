@@ -21,8 +21,8 @@ function Birthday() {
         }
     }, [input]);
 
-
-    const selfApp = new SelfAppBuilder({
+    // Only create SelfApp when we have a valid address
+    const selfApp = address ? new SelfAppBuilder({
         appName: "Self Birthday",
         scope: "Self-Birthday-Example",
         endpoint: HAPPY_BIRTHDAY_CONTRACT_ADDRESS,
@@ -34,7 +34,7 @@ function Birthday() {
             date_of_birth: true,
         },
         devMode: true,
-    } as Partial<SelfApp>).build();
+    } as Partial<SelfApp>).build() : null;
 
     const handleSuccess = async (data?: any) => {
         console.log('Verification successful', data);
@@ -83,7 +83,7 @@ function Birthday() {
             <div className="container mx-auto max-w-2xl px-4 py-8">
                 <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300">
                     <h2 className="text-2xl font-semibold mb-6 text-center">
-                        🎉 It&apos;s your birthday? Claim 1 USDC 🎂 🎁
+                        🎉 It&apos;s your birthday? Claim 1000 RACE tokens 🎂 🎁
                     </h2>
 
                     <div className="mb-6">
@@ -112,10 +112,10 @@ function Birthday() {
                     {claimSuccess && (
                         <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                             <h3 className="text-lg font-semibold text-green-800 mb-2">
-                                🎉 Congratulations! Birthday USDC Claimed!
+                                🎉 Congratulations! Birthday RACE Tokens Claimed!
                             </h3>
                             <p className="text-sm text-green-700 mb-3">
-                                You have successfully claimed 1 USDC to your wallet address.
+                                You have successfully claimed 1000 RACE tokens to your wallet address.
                             </p>
                             <div className="space-y-2">
                                 {txHash ? (

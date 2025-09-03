@@ -4,21 +4,18 @@ pragma solidity 0.8.28;
 import {SelfVerificationRoot} from "@selfxyz/contracts/contracts/abstract/SelfVerificationRoot.sol";
 import {ISelfVerificationRoot} from "@selfxyz/contracts/contracts/interfaces/ISelfVerificationRoot.sol";
 import {SelfCircuitLibrary} from "@selfxyz/contracts/contracts/libraries/SelfCircuitLibrary.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {IERC20, SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-contract SelfHappyBirthday is SelfVerificationRoot, Ownable {
-    using SafeERC20 for IERC20;
-
-    IERC20 public immutable usdc;
+contract SelfHappyBirthday is ERC20, SelfVerificationRoot, Ownable {
     string public dobReadable;
 
-    // Default: 1 dollar (6 decimals for USDC)
-    uint256 public claimableAmount = 1000000;
+    // Default: 1000 tokens (18 decimals)
+    uint256 public claimableAmount = 1000 * 10**18;
 
     mapping(uint256 => bool) internal _nullifiers;
 
-    event USDCClaimed(address indexed claimer, uint256 amount);
+    event TokensClaimed(address indexed claimer, uint256 amount);
     event ClaimableAmountUpdated(uint256 oldAmount, uint256 newAmount);
 
     error RegisteredNullifier();
@@ -26,9 +23,9 @@ contract SelfHappyBirthday is SelfVerificationRoot, Ownable {
     constructor(
         address _identityVerificationHub, 
         uint256 _scope, 
-        uint256[] memory _attestationIds,
-        address _token
+        uint256[] memory _attestationIds
     )
+        ERC20("RACE", "RACE")
         SelfVerificationRoot(
             _identityVerificationHub, 
             _scope, 
@@ -36,7 +33,8 @@ contract SelfHappyBirthday is SelfVerificationRoot, Ownable {
         )
         Ownable(_msgSender())
     {
-        usdc = IERC20(_token);
+        // Mint 1 billion tokens to the deployer
+        _mint(_msgSender(), 1_000_000_000 * 10**18);
     }
 
     function setVerificationConfig(
@@ -69,8 +67,8 @@ contract SelfHappyBirthday is SelfVerificationRoot, Ownable {
             )
         ) {
             _nullifiers[proof.pubSignals[NULLIFIER_INDEX]] = true;
-            usdc.safeTransfer(address(uint160(proof.pubSignals[USER_IDENTIFIER_INDEX])), claimableAmount);
-            emit USDCClaimed(address(uint160(proof.pubSignals[USER_IDENTIFIER_INDEX])), claimableAmount);
+            _transfer(owner(), address(uint160(proof.pubSignals[USER_IDENTIFIER_INDEX])), claimableAmount);
+            emit TokensClaimed(address(uint160(proof.pubSignals[USER_IDENTIFIER_INDEX])), claimableAmount);
         } else {
             revert("Not eligible: Not within claimable window");
         }
@@ -109,7 +107,7 @@ contract SelfHappyBirthday is SelfVerificationRoot, Ownable {
         return timeDifference <= claimableWindow;
     }
 
-    function withdrawUSDC(address to, uint256 amount) external onlyOwner {
-        usdc.safeTransfer(to, amount);
+    function withdrawTokens(address to, uint256 amount) external onlyOwner {
+        _transfer(owner(), to, amount);
     }
 }
