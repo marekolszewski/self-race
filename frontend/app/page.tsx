@@ -112,6 +112,53 @@ function RaceGame() {
 
     return (
         <div className="min-h-screen" style={{ background: 'var(--terminal-bg)', color: 'var(--terminal-green)' }}>
+            {/* Intro Section */}
+            <div className="terminal-box m-4 mb-6 p-6">
+                <div className="text-center">
+                    <div style={{ color: 'var(--terminal-cyan)' }} className="text-3xl mb-6 terminal-glow">
+                        Welcome to Self-Race 🏁🔥
+                    </div>
+                    
+                    <div className="max-w-4xl mx-auto space-y-4 text-lg">
+                        <div style={{ color: 'var(--terminal-white)' }}>
+                            This ain't about winning.
+                        </div>
+                        <div style={{ color: 'var(--terminal-red)' }} className="terminal-glow">
+                            It's about making sure your nemesis loses.
+                        </div>
+                        
+                        <div style={{ color: 'var(--terminal-green)' }} className="mt-6">
+                            In <span style={{ color: 'var(--terminal-cyan)' }} className="font-bold">Self-Race</span>, four arch-rivals line up to prove who they are with Self Protocol. The prize? A memecoin called <span style={{ color: 'var(--terminal-amber)' }} className="font-bold terminal-glow">RUN</span>.
+                        </div>
+                        
+                        <div className="mt-6 space-y-2">
+                            <div style={{ color: 'var(--terminal-amber)' }}>
+                                Vitalik vs. Justin Sun.
+                            </div>
+                            <div style={{ color: 'var(--terminal-amber)' }}>
+                                Elon vs. Jeff Bezos.
+                            </div>
+                            <div style={{ color: 'var(--terminal-amber)' }}>
+                                Tom Cruise vs. Vin Diesel.
+                            </div>
+                        </div>
+                        
+                        <div className="mt-6 space-y-2">
+                            <div style={{ color: 'var(--terminal-white)' }}>
+                                Do they even want the tokens? Maybe.
+                            </div>
+                            <div style={{ color: 'var(--terminal-green)' }}>
+                                But what they <em>really</em> want… is to stop their rival from getting them.
+                            </div>
+                        </div>
+                        
+                        <div style={{ color: 'var(--terminal-cyan)' }} className="mt-8 text-xl terminal-glow">
+                            <span className="font-bold">Self-Race:</span> where grudges move faster than wallets.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div className="flex flex-col lg:flex-row gap-4 m-4">
                 {/* Rounds Sidebar */}
                 <div className="lg:w-1/3">
@@ -186,7 +233,7 @@ function RaceGame() {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                             <div className="terminal-box p-3">
                                 <div style={{ color: 'var(--terminal-amber)' }} className="mb-2">SYSTEM STATUS</div>
-                                <div style={{ color: 'var(--terminal-green)' }}>RACE TOKEN: ONLINE</div>
+                                <div style={{ color: 'var(--terminal-green)' }}>RUN TOKEN: ONLINE</div>
                                 <div style={{ color: 'var(--terminal-green)' }}>SELF PROTOCOL: [ OK ]</div>
                                 <div style={{ color: 'var(--terminal-green)' }}>CELO NETWORK: [ OK ]</div>
                                 <div style={{ color: 'var(--terminal-red)' }}>IDENTITY VERIFY: [ PENDING ]</div>
@@ -195,8 +242,8 @@ function RaceGame() {
                             <div className="terminal-box p-3">
                                 <div style={{ color: 'var(--terminal-amber)' }} className="mb-2">RACE STATISTICS</div>
                                 <div>TOTAL SUPPLY: 1,000,000,000</div>
-                                <div>REWARD POOL: 1,000 RACE</div>
-                                <div>PLAYERS RACING: 4</div>
+                                <div>REWARD POOL: 1,000 RUN</div>
+                                <div>RIVALS COMPETING: 4</div>
                                 <div>ROUND {CURRENT_ROUND}/9 ACTIVE</div>
                             </div>
 
@@ -212,13 +259,13 @@ function RaceGame() {
                         <div className="terminal-box p-6">
                             <div className="mb-6">
                                 <div style={{ color: 'var(--terminal-cyan)' }} className="text-xl mb-4 terminal-glow">
-                                    &gt;&gt;&gt; SELF-RACE REDEMPTION PROTOCOL &lt;&lt;&lt;
+                                    &gt;&gt;&gt; SELF-RACE RIVALRY PROTOCOL &lt;&lt;&lt;
                                 </div>
                                 <div style={{ color: 'var(--terminal-amber)' }} className="mb-4">
                                     REQUIREMENTS: NAME MATCH + SELF PROTOCOL VERIFICATION
                                 </div>
                                 <div style={{ color: 'var(--terminal-white)' }} className="mb-4">
-                                    REWARD: 1,000 RACE TOKENS TO WINNER
+                                    REWARD: 1,000 RUN TOKENS TO WINNER
                                 </div>
                             </div>
 
@@ -258,7 +305,7 @@ function RaceGame() {
                                         ))}?
                                     </div>
                                     <div style={{ color: 'var(--terminal-green)' }} className="mt-2">
-                                        Redeem your RACE tokens now!
+                                        Redeem your RUN tokens now!
                                     </div>
                                 </div>
                             )}
@@ -302,7 +349,7 @@ function RaceGame() {
                                         ║    🏁 RACE VERIFICATION SUCCESS!       ║
                                     </div>
                                     <div style={{ color: 'var(--terminal-green)' }} className="text-xl mb-4 terminal-glow">
-                                        ║       1,000 RACE TOKENS REDEEMED!      ║
+                                        ║       1,000 RUN TOKENS REDEEMED!       ║
                                     </div>
                                     <div style={{ color: 'var(--terminal-green)' }} className="text-xl mb-4 terminal-glow">
                                         ╚════════════════════════════════════════╝
