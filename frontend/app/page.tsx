@@ -199,20 +199,6 @@ function RaceGame() {
                 {/* Main Content */}
                 <div className="lg:w-2/3">
                     <div className="terminal-box p-4">
-                        {/* Header */}
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="terminal-glow">
-                                <div style={{ color: 'var(--terminal-cyan)' }} className="text-xl font-bold">
-                                    ╔═══════════════════════════════════════════════════════════════════════╗
-                                </div>
-                                <div style={{ color: 'var(--terminal-cyan)' }}>
-                                    ║                          🏁 SELF-RACE TERMINAL v2.0 🏁                ║
-                                </div>
-                                <div style={{ color: 'var(--terminal-cyan)' }}>
-                                    ╚═══════════════════════════════════════════════════════════════════════╝
-                                </div>
-                            </div>
-                        </div>
 
                         {/* Current Round Display */}
                         {currentRound && (

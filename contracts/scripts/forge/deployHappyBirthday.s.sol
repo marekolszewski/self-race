@@ -3,11 +3,11 @@ pragma solidity 0.8.28;
 
 import { Script } from "forge-std/src/Script.sol";
 import { console } from "forge-std/src/console.sol";
-import { SelfHappyBirthday } from "../../contracts/HappyBirthday.sol";
+import { SelfRace } from "../../contracts/SelfRace.sol";
 
 /**
- * @title DeployHappyBirthday
- * @notice Deployment script for the SelfHappyBirthday contract
+ * @title DeploySelfRace
+ * @notice Deployment script for the SelfRace contract
  *
  * To run this script:
  * 1. Set the PRIVATE_KEY environment variable:
@@ -31,7 +31,7 @@ import { SelfHappyBirthday } from "../../contracts/HappyBirthday.sol";
  * The --verify flag automatically handles contract verification using the appropriate Etherscan API
  * based on the network you're deploying to.
  */
-contract DeployHappyBirthday is Script {
+contract DeploySelfRace is Script {
     function run() public {
         // Get the private key from the environment variable
         uint256 deployerPrivateKey = vm.envUint("CELO_KEY");
@@ -59,10 +59,10 @@ contract DeployHappyBirthday is Script {
         uint256[] memory attestationIds = new uint256[](1);
         attestationIds[0] = 1;
 
-        console.log("Deploying SelfHappyBirthday (RACE Token)...");
+        console.log("Deploying SelfRace (RUN Token)...");
 
         // Deploy the contract
-        SelfHappyBirthday selfHappyBirthday = new SelfHappyBirthday(
+        SelfRace selfRace = new SelfRace(
             identityVerificationHub,
             scope,
             attestationIds
@@ -72,13 +72,15 @@ contract DeployHappyBirthday is Script {
         vm.stopBroadcast();
 
         // Log the deployed address
-        console.log("SelfHappyBirthday (RACE Token) deployed to:", address(selfHappyBirthday));
+        console.log("SelfRace (RUN Token) deployed to:", address(selfRace));
         console.log("\n=== DEPLOYMENT SUMMARY ===");
-        console.log("Contract: SelfHappyBirthday (RACE Token)");
-        console.log("Address: %s", address(selfHappyBirthday));
-        console.log("Token Name: RACE");
-        console.log("Token Symbol: RACE");
-        console.log("Total Supply: 1,000,000,000 RACE");
+        console.log("Contract: SelfRace (RUN Token)");
+        console.log("Address: %s", address(selfRace));
+        console.log("Token Name: RUN");
+        console.log("Token Symbol: RUN");
+        console.log("Total Supply: 1,000,000,000 RUN");
+        console.log("Claimable Amount: 1,000,000 RUN");
+        console.log("Current Round: 1 (Ethereum Fork Wars)");
         console.log("Identity Hub: %s", identityVerificationHub);
         console.log("Scope: %s", scope);
     }
