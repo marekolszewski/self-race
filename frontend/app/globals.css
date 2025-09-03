@@ -1,21 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --terminal-bg: #000000;
+  --terminal-green: #00ff00;
+  --terminal-green-dim: #008000;
+  --terminal-amber: #ffbf00;
+  --terminal-red: #ff0000;
+  --terminal-cyan: #00ffff;
+  --terminal-blue: #0080ff;
+  --terminal-white: #ffffff;
+  --terminal-gray: #808080;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--terminal-bg);
+  color: var(--terminal-green);
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+/* CRT Monitor Effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent 50%, rgba(0, 255, 0, 0.03) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1000;
+  animation: scanlines 0.1s linear infinite;
+}
+
+/* Scanlines animation */
+@keyframes scanlines {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* Screen flicker effect */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 255, 0, 0.01);
+  pointer-events: none;
+  z-index: 999;
+  animation: flicker 0.15s infinite linear alternate;
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+/* Terminal glow effect */
+.terminal-glow {
+  text-shadow: 0 0 5px var(--terminal-green), 0 0 10px var(--terminal-green);
+}
+
+/* Terminal box styles */
+.terminal-box {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--terminal-green);
+  box-shadow: 
+    0 0 10px var(--terminal-green),
+    inset 0 0 10px rgba(0, 255, 0, 0.1);
+}
+
+/* Typing animation */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  0%, 50% { border-color: transparent; }
+  51%, 100% { border-color: var(--terminal-green); }
+}
+
+.typing-animation {
+  overflow: hidden;
+  border-right: 2px solid var(--terminal-green);
+  white-space: nowrap;
+  animation: typing 3s steps(40, end), blink 1s step-end infinite;
 }

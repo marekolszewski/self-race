@@ -5,15 +5,14 @@ import SelfQRcodeWrapper, { SelfApp, SelfAppBuilder } from '@selfxyz/qrcode';
 import { logo } from './content/birthdayAppLogo';
 import { ethers } from 'ethers';
 
-// SelfHappyBirthday contract address deployed on Celo Alfajores testnet
 const HAPPY_BIRTHDAY_CONTRACT_ADDRESS = "0x97d01A133c9Bfd77D6b7147d36bAA005b48735aa";
 
 function Birthday() {
     const [input, setInput] = useState('');
     const [address, setAddress] = useState('');
-
     const [claimSuccess, setClaimSuccess] = useState(false);
     const [txHash, setTxHash] = useState<string | null>(null);
+    const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
         if (ethers.isAddress(input)) {
@@ -21,7 +20,11 @@ function Birthday() {
         }
     }, [input]);
 
-    // Only create SelfApp when we have a valid address
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+        return () => clearInterval(timer);
+    }, []);
+
     const selfApp = address ? new SelfAppBuilder({
         appName: "Self Birthday",
         scope: "Self-Birthday-Example",
@@ -39,107 +42,191 @@ function Birthday() {
     const handleSuccess = async (data?: any) => {
         console.log('Verification successful', data);
         setClaimSuccess(true);
-        // If we get a tx hash from the data, use it
         if (data?.txHash) {
             setTxHash(data.txHash);
         }
     };
 
+    const formatTime = (date: Date) => {
+        return date.toLocaleTimeString('en-US', { 
+            hour12: false, 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit' 
+        });
+    };
+
     return (
-        <div className="min-h-screen bg-white text-black">
-            <nav className="w-full bg-white border-b border-gray-200 py-3 px-6 flex items-center justify-between">
-                <div className="flex items-center">
-                    <div className="mr-8">
-                        <img
-                            src="/self.svg" 
-                            alt="Self Logo" 
-                            className="h-8"
-                        />
+        <div className="min-h-screen" style={{ background: 'var(--terminal-bg)', color: 'var(--terminal-green)' }}>
+            <div className="terminal-box m-4 p-4">
+                <div className="flex justify-between items-center mb-4">
+                    <div className="terminal-glow">
+                        <div style={{ color: 'var(--terminal-cyan)' }} className="text-xl font-bold">
+                            ╔═══════════════════════════════════════════════════════════════════════╗
+                        </div>
+                        <div style={{ color: 'var(--terminal-cyan)' }}>
+                            ║                          🏁 SELF-RACE TERMINAL v2.0 🏁                ║
+                        </div>
+                        <div style={{ color: 'var(--terminal-cyan)' }}>
+                            ╚═══════════════════════════════════════════════════════════════════════╝
+                        </div>
                     </div>
                 </div>
-                <div className="flex items-center space-x-4">
-                    <a 
-                        href="https://github.com/zk-passport/openpassport" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="bg-gray-900 text-white px-4 py-2 rounded-md flex items-center hover:bg-gray-800 transition-colors"
-                    >
-                        <span className="mr-2">Star on Github</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                        </svg>
-                    </a>
-                    <a
-                        className="flex items-center justify-center gap-2 hover:underline hover:underline-offset-4"
-                        href="https://self.xyz"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Go to self.xyz →
-                    </a>
-                </div>
-            </nav>
 
-            <div className="container mx-auto max-w-2xl px-4 py-8">
-                <div className="bg-white rounded-lg shadow-md p-6 border border-gray-300">
-                    <h2 className="text-2xl font-semibold mb-6 text-center">
-                        🎉 It&apos;s your birthday? Claim 1000 RACE tokens 🎂 🎁
-                    </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="terminal-box p-3">
+                        <div style={{ color: 'var(--terminal-amber)' }} className="mb-2">SYSTEM STATUS</div>
+                        <div style={{ color: 'var(--terminal-green)' }}>RACE TOKEN: ONLINE</div>
+                        <div style={{ color: 'var(--terminal-green)' }}>SELF PROTOCOL: [ OK ]</div>
+                        <div style={{ color: 'var(--terminal-green)' }}>CELO NETWORK: [ OK ]</div>
+                        <div style={{ color: 'var(--terminal-red)' }}>BIRTHDAY VERIFY: [ PENDING ]</div>
+                    </div>
+
+                    <div className="terminal-box p-3">
+                        <div style={{ color: 'var(--terminal-amber)' }} className="mb-2">RACE STATISTICS</div>
+                        <div>TOTAL SUPPLY: 1,000,000,000</div>
+                        <div>REWARD POOL: 1,000 RACE</div>
+                        <div>PLAYERS ACTIVE: 1,337</div>
+                        <div>CLAIMS TODAY: 42</div>
+                    </div>
+
+                    <div className="terminal-box p-3">
+                        <div style={{ color: 'var(--terminal-amber)' }} className="mb-2">SYSTEM TIME</div>
+                        <div className="text-lg terminal-glow">{formatTime(currentTime)}</div>
+                        <div>UTC {currentTime.toISOString().split('T')[0]}</div>
+                        <div style={{ color: 'var(--terminal-green)' }}>BIRTHDAY WINDOW: 24H</div>
+                    </div>
+                </div>
+
+                <div className="terminal-box p-6">
+                    <div className="mb-6">
+                        <div style={{ color: 'var(--terminal-cyan)' }} className="text-xl mb-4 terminal-glow">
+                            &gt;&gt;&gt; BIRTHDAY RACE TOKEN CLAIM PROTOCOL &lt;&lt;&lt;
+                        </div>
+                        <div style={{ color: 'var(--terminal-amber)' }} className="mb-4">
+                            REQUIREMENTS: VALID BIRTHDAY + SELF PROTOCOL VERIFICATION
+                        </div>
+                        <div style={{ color: 'var(--terminal-white)' }} className="mb-4">
+                            REWARD: 1,000 RACE TOKENS TO YOUR WALLET
+                        </div>
+                    </div>
 
                     <div className="mb-6">
-                        <label className="block text-sm font-medium mb-2">
-                            Enter your wallet address:
-                        </label>
+                        <div style={{ color: 'var(--terminal-green)' }} className="mb-2">
+                            ENTER WALLET ADDRESS:
+                        </div>
                         <input
                             type="text"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="0x..."
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-3 bg-black border-2 text-green-400 font-mono"
+                            style={{ 
+                                borderColor: 'var(--terminal-green)',
+                                backgroundColor: 'var(--terminal-bg)',
+                                color: 'var(--terminal-green)',
+                                boxShadow: '0 0 5px var(--terminal-green)'
+                            }}
                         />
+                        {address && (
+                            <div style={{ color: 'var(--terminal-green)' }} className="mt-2">
+                                [ OK ] VALID ADDRESS DETECTED: {address.slice(0, 10)}...
+                            </div>
+                        )}
                     </div>
 
                     {selfApp && (
-                        <div className="flex justify-center mb-6">
-                            <SelfQRcodeWrapper
-                                selfApp={selfApp}
-                                type='websocket'
-                                onSuccess={handleSuccess}
-                            />
+                        <div className="flex flex-col items-center mb-6">
+                            <div style={{ color: 'var(--terminal-amber)' }} className="mb-4 text-center">
+                                SCAN QR CODE TO VERIFY BIRTHDAY WITH SELF PROTOCOL
+                            </div>
+                            <div className="terminal-box p-4">
+                                <SelfQRcodeWrapper
+                                    selfApp={selfApp}
+                                    type='websocket'
+                                    onSuccess={handleSuccess}
+                                />
+                            </div>
+                            <div style={{ color: 'var(--terminal-green)' }} className="mt-4 text-center">
+                                WAITING FOR VERIFICATION...
+                                <span className="animate-pulse">█</span>
+                            </div>
+                        </div>
+                    )}
+
+                    {!address && (
+                        <div className="text-center">
+                            <div style={{ color: 'var(--terminal-red)' }}>
+                                ERROR: WALLET ADDRESS REQUIRED TO PROCEED
+                            </div>
+                            <div style={{ color: 'var(--terminal-gray)' }}>
+                                Please enter a valid Ethereum address above
+                            </div>
                         </div>
                     )}
 
                     {claimSuccess && (
-                        <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                            <h3 className="text-lg font-semibold text-green-800 mb-2">
-                                🎉 Congratulations! Birthday RACE Tokens Claimed!
-                            </h3>
-                            <p className="text-sm text-green-700 mb-3">
-                                You have successfully claimed 1000 RACE tokens to your wallet address.
-                            </p>
+                        <div className="terminal-box p-6 mt-6" style={{ borderColor: 'var(--terminal-green)' }}>
+                            <div style={{ color: 'var(--terminal-green)' }} className="text-xl mb-4 terminal-glow">
+                                ╔════════════════════════════════════════╗
+                            </div>
+                            <div style={{ color: 'var(--terminal-green)' }} className="text-xl mb-4 terminal-glow">
+                                ║    🎉 BIRTHDAY VERIFICATION SUCCESS!   ║
+                            </div>
+                            <div style={{ color: 'var(--terminal-green)' }} className="text-xl mb-4 terminal-glow">
+                                ║       1,000 RACE TOKENS CLAIMED!       ║
+                            </div>
+                            <div style={{ color: 'var(--terminal-green)' }} className="text-xl mb-4 terminal-glow">
+                                ╚════════════════════════════════════════╝
+                            </div>
+                            
+                            <div style={{ color: 'var(--terminal-white)' }} className="mb-4">
+                                TRANSACTION STATUS: COMPLETED
+                            </div>
+                            <div style={{ color: 'var(--terminal-white)' }} className="mb-4">
+                                DESTINATION: {address}
+                            </div>
+                            
                             <div className="space-y-2">
                                 {txHash ? (
                                     <a
                                         href={`https://alfajores.celoscan.io/tx/${txHash}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center text-blue-600 hover:underline"
+                                        className="block terminal-glow hover:underline"
+                                        style={{ color: 'var(--terminal-cyan)' }}
                                     >
-                                        View Transaction on Celoscan →
+                                        &gt;&gt;&gt; VIEW TRANSACTION ON CELOSCAN &lt;&lt;&lt;
                                     </a>
                                 ) : (
                                     <a
                                         href={`https://alfajores.celoscan.io/address/${address}#tokentxns`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center text-blue-600 hover:underline"
+                                        className="block terminal-glow hover:underline"
+                                        style={{ color: 'var(--terminal-cyan)' }}
                                     >
-                                        View Your Token Transfers on Celoscan →
+                                        &gt;&gt;&gt; VIEW YOUR TOKEN TRANSFERS &lt;&lt;&lt;
                                     </a>
                                 )}
                             </div>
                         </div>
                     )}
+                </div>
+
+                <div className="mt-6 text-center">
+                    <div style={{ color: 'var(--terminal-gray)' }}>
+                        SELF-RACE PROTOCOL © 2025 | POWERED BY SELF PROTOCOL | 
+                        <a 
+                            href="https://self.xyz" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="ml-2 terminal-glow hover:underline"
+                            style={{ color: 'var(--terminal-cyan)' }}
+                        >
+                            SELF.XYZ
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
